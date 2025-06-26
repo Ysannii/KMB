@@ -11,43 +11,21 @@
     <button onclick="window.location='index.html'" class="back-btn">←</button>
     <h1 id="recipe-title">Recette</h1>
   </header>
-
   <main>
+    <!-- Champs existants -->
     <label>Liens (YouTube, TikTok, etc.) :</label>
     <input type="text" id="liens" placeholder="ex: https://...">
-
-    <label>Difficulté :</label>
-    <div id="stars"></div>
-
-    <label>Note (sur 10) :</label>
-    <div id="note-container"></div>
-
-    <label>Temps :</label>
-    <input type="text" id="temps" placeholder="ex: 45 min">
-
+    <label>Difficulté :</label><div id="stars"></div>
+    <label>Note (sur 10) :</label><div id="note-container"></div>
+    <label>Temps :</label><input type="text" id="temps" placeholder="ex: 45 min">
     <label>Saison :</label>
-    <select id="saison">
-      <option value="">-- Choisir --</option>
-      <option value="Printemps">Printemps</option>
-      <option value="Été">Été</option>
-      <option value="Automne">Automne</option>
-      <option value="Hiver">Hiver</option>
-      <option value="Tout le temps">Tout le temps</option>
-    </select>
+    <select id="saison">...</select>
+    <label>Ingrédients :</label><textarea id="ingredients" rows="4"></textarea>
+    <label>Instructions :</label><textarea id="instructions" rows="6"></textarea>
 
-    <label>Ingrédients :</label>
-    <textarea id="ingredients" rows="4"></textarea>
-
-    <label>Instructions :</label>
-    <textarea id="instructions" rows="6"></textarea>
-
+    <!-- BOUTON DE SUPPRESSION -->
     <button id="delete-btn" class="danger-btn">🗑 Supprimer la recette</button>
-    
   </main>
-
   <script src="script.js"></script>
 </body>
 </html>
-
-
-
