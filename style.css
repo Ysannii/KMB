@@ -42,3 +42,64 @@ header {
   height: 60px;
   box-shadow: 0 4px 6px rgba(0,0,0,0.2);
 }
+
+.back-btn {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 1.5em;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+main {
+  padding: 1em;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+input, textarea, select {
+  width: 100%;
+  padding: 0.5em;
+  font-size: 1em;
+}
+
+#stars span {
+  font-size: 2em;
+  cursor: pointer;
+  color: #ccc;
+}
+
+#stars span.selected {
+  color: gold;
+}
+
+#note-container span {
+  font-size: 1.5em;
+  margin-right: 5px;
+  cursor: pointer;
+  color: #999;
+}
+
+#note-container span.selected {
+  color: #2196F3;
+  font-weight: bold;
+}
+
+.danger-btn {
+  background-color: #e53935;
+  color: white;
+  padding: 0.7em;
+  font-size: 1em;
+  border: none;
+  border-radius: 8px;
+  margin-top: 2em;
+  cursor: pointer;
+}
+
+.danger-btn:hover {
+  background-color: #c62828;
+}

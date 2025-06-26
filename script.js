@@ -51,3 +51,100 @@ document.getElementById("add-recipe-btn").addEventListener("click", createNewRec
 if (document.getElementById("recipe-list")) {
   displayRecipes();
 }
+
+function getRecipeById(id) {
+  return getRecipes().find(r => r.id == id);
+}
+
+function saveRecipe(updatedRecipe) {
+  const recipes = getRecipes().map(r => r.id == updatedRecipe.id ? updatedRecipe : r);
+  localStorage.setItem("recettes", JSON.stringify(recipes));
+}
+
+function loadRecipePage() {
+  const params = new URLSearchParams(window.location.search);
+  const id = params.get("id");
+  if (!id) return;
+
+  const recipe = getRecipeById(id);
+  if (!recipe) {
+    alert("Recette introuvable");
+    return window.location = "index.html";
+  }
+
+  document.getElementById("recipe-title").textContent = recipe.nom;
+
+  // Remplir les champs
+  document.getElementById("liens").value = recipe.liens?.join(", ") || "";
+  document.getElementById("temps").value = recipe.temps || "";
+  document.getElementById("saison").value = recipe.saison || "";
+  document.getElementById("ingredients").value = recipe.ingredients || "";
+  document.getElementById("instructions").value = recipe.instructions || "";
+
+  // étoiles
+  const starsContainer = document.getElementById("stars");
+  starsContainer.innerHTML = "";
+  for (let i = 1; i <= 5; i++) {
+    const star = document.createElement("span");
+    star.innerHTML = "★";
+    star.className = (recipe.difficulte >= i) ? "selected" : "";
+    star.addEventListener("click", () => {
+      recipe.difficulte = i;
+      saveRecipe(recipe);
+      loadRecipePage(); // reload pour mettre à jour l’affichage
+    });
+    starsContainer.appendChild(star);
+  }
+  
+    // Note sur 10
+  const noteContainer = document.getElementById("note-container");
+  noteContainer.innerHTML = "";
+  for (let i = 1; i <= 10; i++) {
+    const noteBtn = document.createElement("span");
+    noteBtn.textContent = i;
+    noteBtn.className = (recipe.note == i) ? "selected" : "";
+    noteBtn.addEventListener("click", () => {
+      recipe.note = i;
+      saveRecipe(recipe);
+      loadRecipePage(); // recharge pour afficher
+    });
+    noteContainer.appendChild(noteBtn);
+  }
+
+
+  // Sauvegarde live à la saisie
+  document.getElementById("liens").oninput = (e) => {
+    recipe.liens = e.target.value.split(",").map(l => l.trim());
+    saveRecipe(recipe);
+  };
+  document.getElementById("temps").oninput = (e) => {
+    recipe.temps = e.target.value;
+    saveRecipe(recipe);
+  };
+  document.getElementById("saison").onchange = (e) => {
+    recipe.saison = e.target.value;
+    saveRecipe(recipe);
+  };
+  document.getElementById("ingredients").oninput = (e) => {
+    recipe.ingredients = e.target.value;
+    saveRecipe(recipe);
+  };
+  document.getElementById("instructions").oninput = (e) => {
+    recipe.instructions = e.target.value;
+    saveRecipe(recipe);
+  };
+}
+
+if (window.location.pathname.includes("recette.html")) {
+  loadRecipePage();
+
+  const deleteBtn = document.getElementById("delete-btn");
+  deleteBtn.onclick = () => {
+    if (confirm("Supprimer cette recette ?")) {
+      const updated = getRecipes().filter(r => r.id != recipe.id);
+      localStorage.setItem("recettes", JSON.stringify(updated));
+      window.location = "index.html";
+    }
+  };
+
+}
