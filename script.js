@@ -1,35 +1,53 @@
-// Récupère les recettes depuis localStorage
 function getRecipes() {
   return JSON.parse(localStorage.getItem("recettes") || "[]");
 }
 
-// Affiche les recettes
 function displayRecipes() {
+  const list = document.getElementById("recipe-list");
   const recipes = getRecipes();
-  const container = document.getElementById("recipe-list");
-  container.innerHTML = "";
 
-  recipes.forEach((recipe, index) => {
+  list.innerHTML = "";
+
+  recipes.forEach((r, i) => {
     const div = document.createElement("div");
+    div.className = "recipe-card";
+    div.onclick = () => window.location.href = `recette.html?id=${r.id}`;
+
     div.innerHTML = `
-      <h3>${recipe.nom}</h3>
-      <p><strong>Ingrédients :</strong> ${recipe.ingredients}</p>
-      <p><strong>Instructions :</strong> ${recipe.instructions}</p>
-      <button onclick="deleteRecipe(${index})">🗑 Supprimer</button>
-      <hr/>
+      <h2>${r.nom}</h2>
+      <p>Note : ${r.note ?? "?"}/10</p>
+      <p>Difficulté : ${r.difficulte ?? "?"}/10</p>
+      <p>Temps : ${r.temps ?? "?"}</p>
+      <p>Saison : ${r.saison ?? "?"}</p>
     `;
-    container.appendChild(div);
+    list.appendChild(div);
   });
 }
 
-function deleteRecipe(index) {
+function createNewRecipe() {
   const recipes = getRecipes();
-  recipes.splice(index, 1);
+  const newId = Date.now();
+  const nom = prompt("Nom de la recette ?");
+  if (!nom) return;
+
+  recipes.push({
+    id: newId,
+    nom,
+    note: null,
+    difficulte: null,
+    temps: null,
+    saison: null,
+    ingredients: "",
+    instructions: "",
+    liens: []
+  });
+
   localStorage.setItem("recettes", JSON.stringify(recipes));
-  displayRecipes();
+  window.location.href = `recette.html?id=${newId}`;
 }
 
-// Pour index.html uniquement
+document.getElementById("add-recipe-btn").addEventListener("click", createNewRecipe);
+
 if (document.getElementById("recipe-list")) {
   displayRecipes();
 }
